@@ -32,7 +32,7 @@
                         <a class="dropdown-item" asp-action="Category" asp-controller="Product"><i class="fas fa-list-ul"></i> Browse Categories</a>
                         <a class="dropdown-item" href="#"><i class="fas fa-search"></i> Product Search</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fas fa-tag"></i> Current Discounts</a>
+                        <a class="dropdown-item" asp-action="Discounts" asp-controller="Product"><i class="fas fa-tag"></i> Current Discounts</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -41,7 +41,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Sign In</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-signature"></i> Register</a>
+                        <a class="dropdown-item" asp-controller="Customer" asp-action="Register"><i class="fas fa-signature"></i> Register</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> Account</a>
                     </div>
@@ -56,11 +56,11 @@
     <div class="container">
         @RenderBody()
     </div>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <!-- popper & bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    @RenderSection("Scripts", required: false)
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- popper & bootstrap -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        @RenderSection("Scripts", required: false)
 </body>
 </html>
