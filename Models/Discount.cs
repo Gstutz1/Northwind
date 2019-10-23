@@ -15,7 +15,6 @@ namespace Northwind.Models
         public decimal DiscountPercent { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-
         public Product Product { get; set; }
     }
 }
