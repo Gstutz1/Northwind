@@ -5,7 +5,7 @@
 
 <table class="table table-sm table-bordered">
     <tr><th>Id</th><th>Name</th><th>Email</th></tr>
-    @if (Model.Any())
+    @if (!Model.Any())
     {
         <tr><td colspan="3" class="text-center">No User Accounts</td></tr>
     }
@@ -30,5 +30,5 @@
 
 <a class="btn btn-outline-primary" asp-action="Create">Create</a>
 <hr />
-<a asp-controller="RoleAdmin">Roles</a>
+<a href="#">Roles</a>
 
