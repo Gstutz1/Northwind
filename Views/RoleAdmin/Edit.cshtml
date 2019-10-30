@@ -1,0 +1,52 @@
+﻿@using Northwind.Models
+@model RoleEditModel
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Edit Role</h4></div>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="roleName" value="@Model.Role.Name" />
+    <input type="hidden" name="roleId" value="@Model.Role.Id" />
+    <ul class="list-group mb-2">
+        <li class="list-group-item list-group-item-success">Add To @Model.Role.Name Role</li>
+        @if (Model.NonMembers.Count() == 0)
+        {
+            <li class="list-group-item">
+                All Users Are Members
+            </li>
+        }
+        else
+        {
+            @foreach (AppUser user in Model.NonMembers)
+            {
+                <li class="list-group-item">
+                    <input type="checkbox" name="IdsToAdd" id="@user.Id" value="@user.Id" />
+                    <label for="@user.Id">@user.UserName</label>
+                </li>
+            }
+        }
+    </ul>
+    <ul class="list-group mb-2">
+        <li class="list-group-item list-group-item-danger">Remove From @Model.Role.Name Role</li>
+        @if (Model.Members.Count() == 0)
+        {
+            <li class="list-group-item">
+                No Users Are Members
+            </li>
+        }
+        else
+        {
+            @foreach (AppUser user in Model.Members)
+            {
+                <li class="list-group-item">
+                    <input type="checkbox" name="IdsToDelete" id="@user.Id" value="@user.Id" />
+                    <label for="@user.Id">@user.UserName</label>
+                </li>
+            }
+        }
+    </ul>
+
+    <button type="submit" class="btn btn-outline-primary">Save</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Done</a>
+</form>

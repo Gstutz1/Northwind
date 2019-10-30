@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Northwind.Controllers
 {
@@ -32,6 +33,14 @@ namespace Northwind.Controllers
             }
 
             return View();
+        }
+
+        public IActionResult Account() => View(repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name));
+
+        public IActionResult Account(Customer customer)
+        {
+            repository.EditCustomer(customer);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

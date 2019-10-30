@@ -10,5 +10,6 @@ namespace Northwind.Models
         IQueryable<Customer> Customers { get; }
 
         void AddCustomer(Customer customer);
+        void EditCustomer(Customer customer);
     }
 }
