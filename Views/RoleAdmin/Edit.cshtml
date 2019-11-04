@@ -29,7 +29,7 @@
     </ul>
     <ul class="list-group mb-2">
         <li class="list-group-item list-group-item-danger">Remove From @Model.Role.Name Role</li>
-        @if (Model.Members.Count() == 0)
+        @if (!Model.Members.Any())
         {
             <li class="list-group-item">
                 No Users Are Members
@@ -37,7 +37,7 @@
         }
         else
         {
-            @foreach (AppUser user in Model.Members)
+            @foreach (var user in Model.Members)
             {
                 <li class="list-group-item">
                     <input type="checkbox" name="IdsToDelete" id="@user.Id" value="@user.Id" />

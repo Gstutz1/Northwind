@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Northwind.Controllers
 {
     public class CustomerController : Controller
     {
-        private INorthwindRepository repository;
+        private readonly INorthwindRepository repository;
         public CustomerController(INorthwindRepository repo) => repository = repo;
 
         public IActionResult Register()
@@ -19,17 +18,15 @@ namespace Northwind.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(Customer customer)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View();
+            if (repository.Customers.Any(c => c.CompanyName == customer.CompanyName))
             {
-                if (repository.Customers.Any(c => c.CompanyName == customer.CompanyName))
-                {
-                    ModelState.AddModelError("", "The company name must be unique!");
-                }
-                else
-                {
-                    repository.AddCustomer(customer);
-                    return RedirectToAction("Index", "Home");
-                }
+                ModelState.AddModelError("", "The company name must be unique!");
+            }
+            else
+            {
+                repository.AddCustomer(customer);
+                return RedirectToAction("Index", "Home");
             }
 
             return View();

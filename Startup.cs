@@ -33,7 +33,7 @@ namespace Northwind
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<INorthwindRepository, EFNorthwindRepository>();
+            services.AddTransient<INorthwindRepository, EfNorthwindRepository>();
             services.AddMvc();
         }
 

@@ -2,10 +2,10 @@
 
 namespace Northwind.Models
 {
-    public class EFNorthwindRepository : INorthwindRepository
+    public class EfNorthwindRepository : INorthwindRepository
     {
-        private NorthwindContext context;
-        public EFNorthwindRepository(NorthwindContext ctx)
+        private readonly NorthwindContext context;
+        public EfNorthwindRepository(NorthwindContext ctx)
         {
             context = ctx;
         }
@@ -23,14 +23,17 @@ namespace Northwind.Models
 
         public void EditCustomer(Customer customer)
         {
-            var customerToUpdate = context.Customers.FirstOrDefault(c => c.CustomerID == customer.CustomerID);
-            customerToUpdate.Address = customer.Address;
-            customerToUpdate.City = customer.City;
-            customerToUpdate.Region = customer.Region;
-            customerToUpdate.PostalCode = customer.PostalCode;
-            customerToUpdate.Country = customer.Country;
-            customerToUpdate.Phone = customer.Phone;
-            customerToUpdate.Fax = customer.Fax;
+            var customerToUpdate = context.Customers.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
+            if (customerToUpdate != null)
+            {
+                customerToUpdate.Address = customer.Address;
+                customerToUpdate.City = customer.City;
+                customerToUpdate.Region = customer.Region;
+                customerToUpdate.PostalCode = customer.PostalCode;
+                customerToUpdate.Country = customer.Country;
+                customerToUpdate.Phone = customer.Phone;
+                customerToUpdate.Fax = customer.Fax;
+            }
 
             context.SaveChanges();
         }

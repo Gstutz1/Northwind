@@ -2,16 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Northwind.Controllers
 {
     public class AdminController : Controller
     {
-        private UserManager<AppUser> userManager;
-        private IPasswordValidator<AppUser> passwordValidator;
-        private IPasswordHasher<AppUser> passwordHasher;
-        private IUserValidator<AppUser> userValidator;
+        private readonly UserManager<AppUser> userManager;
+        private readonly IPasswordValidator<AppUser> passwordValidator;
+        private readonly IPasswordHasher<AppUser> passwordHasher;
+        private readonly IUserValidator<AppUser> userValidator;
 
         public AdminController(UserManager<AppUser> userManager, 
             IUserValidator<AppUser> userValidator,
@@ -56,18 +55,18 @@ namespace Northwind.Controllers
                 {
                     AddErrorsFromResult(result);
                 }
-            }
-            return View(model);
+           }
+           return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            AppUser user = await userManager.FindByIdAsync(id);
+            var user = await userManager.FindByIdAsync(id);
             
             if (user != null)
             {
-                IdentityResult result = await userManager.DeleteAsync(user);
+                var result = await userManager.DeleteAsync(user);
 
                 if (result.Succeeded)
                 {
@@ -102,12 +101,12 @@ namespace Northwind.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string id, string email, string password)
         {
-            AppUser user = await userManager.FindByIdAsync(id);
+            var user = await userManager.FindByIdAsync(id);
 
             if (user != null)
             {
                 user.Email = email;
-                IdentityResult validEmail = await userValidator.ValidateAsync(userManager, user);
+                var validEmail = await userValidator.ValidateAsync(userManager, user);
 
                 if (!validEmail.Succeeded)
                 {
@@ -129,19 +128,18 @@ namespace Northwind.Controllers
                         AddErrorsFromResult(validPassword);
                     }
                 }
-                if ((validEmail.Succeeded && validPassword == null) || 
-                    (validEmail.Succeeded && password != string.Empty && validPassword.Succeeded))
-                {
-                    IdentityResult result = await userManager.UpdateAsync(user);
 
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        AddErrorsFromResult(result);
-                    }
+                if (validPassword != null && ((!validEmail.Succeeded || password == string.Empty || !validPassword.Succeeded)))
+                    return View(user);
+                var result = await userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
                 }
             }
             else

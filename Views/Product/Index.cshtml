@@ -10,11 +10,11 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Product p in Model)
+        @foreach (var p in Model)
         {
             <tr>
                 <td>@p.ProductName</td>
-                <td class="text-right">@string.Format("{0:c}", p.UnitPrice)</td>
+                <td class="text-right">@($"{p.UnitPrice:c}")</td>
                 <td class="text-right">@p.UnitsInStock</td>
             </tr>
         }

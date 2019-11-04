@@ -4,7 +4,7 @@
 
 <form method="post" asp-action="Account">
     <div asp-validation-summary="All" style="color:red;"></div>
-    <input type="hidden" name="CustomerId" value="@Model.CustomerID" />
+    <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
     <div class="form-row">
         <div class="form-group col-md-6">
             <label asp-for="@Model.CompanyName">Company Name</label>

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Northwind.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Models;
+using System.Threading.Tasks;
 
 namespace Northwind.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<AppUser> userManager;
-        private SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> userManager;
+        private readonly SignInManager<AppUser> signInManager;
 
         public AccountController(UserManager<AppUser> userManager, 
             SignInManager<AppUser> signInManager)
@@ -30,25 +26,23 @@ namespace Northwind.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel login, string returnUrl)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(login);
+            var user = await userManager.FindByEmailAsync(login.Email);
+
+            if (user != null)
             {
-                AppUser user = await userManager.FindByEmailAsync(login.Email);
+                await signInManager.SignOutAsync();
 
-                if (user != null)
-                {
-                    await signInManager.SignOutAsync();
-
-                    Microsoft.AspNetCore.Identity.SignInResult result = 
-                        await signInManager.PasswordSignInAsync(user, login.Password,
+                var result = 
+                    await signInManager.PasswordSignInAsync(user, login.Password,
                         false, false);
 
-                    if (result.Succeeded)
-                    {
-                        return Redirect(returnUrl ?? "/");
-                    }
+                if (result.Succeeded)
+                {
+                    return Redirect(returnUrl ?? "/");
                 }
-                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user of password");
             }
+            ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user of password");
             return View(login);
         }
 

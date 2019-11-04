@@ -1,5 +1,4 @@
-﻿using System;
-namespace Northwind.Models
+﻿namespace Northwind.Models
 {
     public class Product
     {
