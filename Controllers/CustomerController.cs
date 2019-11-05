@@ -34,6 +34,8 @@ namespace Northwind.Controllers
 
         public IActionResult Account() => View(repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name));
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Account(Customer customer)
         {
             repository.EditCustomer(customer);

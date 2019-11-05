@@ -36,7 +36,7 @@ namespace Northwind.Migrations
 
             modelBuilder.Entity("Northwind.Models.Customer", b =>
                 {
-                    b.Property<int>("CustomerID")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -49,6 +49,9 @@ namespace Northwind.Migrations
 
                     b.Property<string>("Country");
 
+                    b.Property<string>("Email")
+                        .IsRequired();
+
                     b.Property<string>("Fax");
 
                     b.Property<string>("Phone");
@@ -57,14 +60,14 @@ namespace Northwind.Migrations
 
                     b.Property<string>("Region");
 
-                    b.HasKey("CustomerID");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Northwind.Models.Discount", b =>
                 {
-                    b.Property<int>("DiscountID")
+                    b.Property<int>("DiscountId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -76,15 +79,15 @@ namespace Northwind.Migrations
 
                     b.Property<DateTime>("EndTime");
 
-                    b.Property<int>("ProductID");
+                    b.Property<int>("ProductId");
 
                     b.Property<DateTime>("StartTime");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("DiscountID");
+                    b.HasKey("DiscountId");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Discounts");
                 });
@@ -122,7 +125,7 @@ namespace Northwind.Migrations
                 {
                     b.HasOne("Northwind.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductID")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

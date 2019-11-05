@@ -37,25 +37,21 @@ namespace Northwind.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateModel model)
         {
-           if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            var user = new AppUser
            {
-                AppUser user = new AppUser
-                {
-                    UserName = model.Name,
-                    Email = model.Email
-                };
+               UserName = model.Name,
+               Email = model.Email
+           };
 
-                IdentityResult result = await userManager.CreateAsync(user, model.Password);
+           var result = await userManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    AddErrorsFromResult(result);
-                }
+           if (result.Succeeded)
+           {
+               return RedirectToAction("Index");
            }
+
+           AddErrorsFromResult(result);
            return View(model);
         }
 
@@ -72,10 +68,8 @@ namespace Northwind.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    AddErrorsFromResult(result);
-                }
+
+                AddErrorsFromResult(result);
             }
             else
             {
@@ -86,16 +80,14 @@ namespace Northwind.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
-            AppUser user = await userManager.FindByIdAsync(id);
+            var user = await userManager.FindByIdAsync(id);
 
             if (user!= null)
             {
                 return View(user);
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -137,10 +129,8 @@ namespace Northwind.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    AddErrorsFromResult(result);
-                }
+
+                AddErrorsFromResult(result);
             }
             else
             {
