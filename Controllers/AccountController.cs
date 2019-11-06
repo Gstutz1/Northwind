@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Northwind.Controllers
 {
@@ -17,6 +18,7 @@ namespace Northwind.Controllers
             this.signInManager = signInManager;
         }
 
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -24,9 +26,12 @@ namespace Northwind.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel login, string returnUrl)
         {
             if (!ModelState.IsValid) return View(login);
+
             var user = await userManager.FindByEmailAsync(login.Email);
 
             if (user != null)
@@ -41,16 +46,18 @@ namespace Northwind.Controllers
                 {
                     return Redirect(returnUrl ?? "/");
                 }
+                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user of password");
             }
-            ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user of password");
             return View(login);
         }
 
+        [AllowAnonymous]
         public ViewResult AccessDenied()
         {
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();

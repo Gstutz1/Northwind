@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Northwind.Models;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace Northwind.Controllers
             this.passwordHasher = passwordHasher;
         }
 
+        [Authorize(Roles = "Administrators")]
         public IActionResult Index()
         {
             return View(userManager.Users);

@@ -5,9 +5,9 @@ namespace Northwind.Models
     public class EfNorthwindRepository : INorthwindRepository
     {
         private readonly NorthwindContext context;
-        public EfNorthwindRepository(NorthwindContext ctx)
+        public EfNorthwindRepository(NorthwindContext context)
         {
-            context = ctx;
+            this.context = context;
         }
         
         public IQueryable<Category> Categories => context.Categories;
