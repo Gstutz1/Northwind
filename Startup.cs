@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Northwind.Models;
+using Northwind.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Northwind
 {
@@ -34,6 +36,7 @@ namespace Northwind
                 .AddDefaultTokenProviders();
 
             services.AddTransient<INorthwindRepository, EfNorthwindRepository>();
+            services.AddTransient<IEmailSender, EmailService>();
             services.AddMvc();
         }
 
