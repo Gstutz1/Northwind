@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Home\" />
+    <Folder Include="Views\Recover\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
