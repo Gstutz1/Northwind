@@ -8,6 +8,7 @@
     <div class="form-group">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" />
+        <a href="#" data-toggle="modal" data-target="#recoverModal">Forgot Password</a>
     </div>
     <div class="form-group">
         <label asp-for="Password"></label>
@@ -16,3 +17,30 @@
     <button type="submit" class="btn btn-outline-primary">Log In</button>
 </form>
 
+<div class="modal fade" id="recoverModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Recover your password</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Please enter your email and you should recieve a link to reset your password</h3>
+                <form asp-action="Sent" asp-controller="Recover" method="post">
+                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <h6><small>If you do not recieve an email, you do not have an account on file.</small></h6>
+            </div>
+        </div>"
+
+    </div>
+</div>
