@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Northwind.Models;
 using Northwind.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System;
 
 namespace Northwind
 {
@@ -36,6 +37,7 @@ namespace Northwind
                 .AddDefaultTokenProviders();
 
             services.AddTransient<INorthwindRepository, EfNorthwindRepository>();
+            services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(3));
             services.AddTransient<IEmailService, EmailService>();
             services.AddMvc();
         }
