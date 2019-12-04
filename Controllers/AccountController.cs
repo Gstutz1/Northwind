@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Northwind.Services;
 
 namespace Northwind.Controllers
 {
@@ -62,6 +63,30 @@ namespace Northwind.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        //public async Task<IActionResult> PasswordReset(Customer customer)
+        public async Task<IActionResult> PasswordReset(string email)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    var code = await userManager.GeneratePasswordResetTokenAsync(user);
+                    var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    var emailManager = new EmailService();
+                    await emailManager.SendEmailAsync(email, "Password Reset Link", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                }
+            }
+
+            return View();
+        }
+        public async Task<IActionResult> ResetPasswordReset(Customer customer)
+        {
+
+            return View();
         }
     }
 }

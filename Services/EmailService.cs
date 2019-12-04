@@ -33,7 +33,7 @@ namespace Northwind.Services
                     client.Connect("smtp.gmail.com", 587, false);
 
                     // Login to gmail server
-                    client.Authenticate("northwindtesting@gmail.com", "blank");
+                    client.Authenticate("northwindtesting@gmail.com", "Northwind2");
 
                     // Send message to user email
                     await client.SendAsync(message);

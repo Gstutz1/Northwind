@@ -28,13 +28,13 @@
             </div>
             <div class="modal-body">
                 <h3>Please enter your email and you should recieve a link to reset your password</h3>
-                <form asp-action="Sent" asp-controller="Recover" method="post">
-                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                <form asp-action="PasswordReset" method="post">
+                    <!-- <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" /> -->
                     <div class="form-group">
                         <label asp-for="Email"></label>
                         <input asp-for="Email" class="form-control" />
                     </div>
-                    <button type="submit" class="btn btn-primary">Sign In</button>
+                    <button type="submit" class="btn btn-primary">Send Email</button>
                 </form>
             </div>
             <div class="modal-footer">
