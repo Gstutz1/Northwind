@@ -36,7 +36,7 @@ namespace Northwind
                 .AddDefaultTokenProviders();
 
             services.AddTransient<INorthwindRepository, EfNorthwindRepository>();
-            services.AddTransient<IEmailSender, EmailService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddMvc();
         }
 
