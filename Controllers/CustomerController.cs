@@ -82,7 +82,7 @@ namespace Northwind.Controllers
 
         private void AddErrorsFromResult(IdentityResult result)
         {
-            foreach (IdentityError error in result.Errors)
+            foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
             }

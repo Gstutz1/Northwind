@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Northwind.Services
 {
-    interface IEmailService
+    internal interface IEmailService
     {
         Task SendEmailAsync(string email, string subject, string htmlMessage);
     }

@@ -15,10 +15,10 @@ namespace Northwind.Services
                 var message = new MimeMessage();
 
                 // User email
-                message.To.Add(new MailboxAddress("blank", email));
+                message.To.Add(new MailboxAddress("User", email));
 
                 // Our email
-                message.From.Add(new MailboxAddress("blank", "northwindtesting@gmail.com"));
+                message.From.Add(new MailboxAddress("Northwind", "northwindtesting@gmail.com"));
 
                 // Subject and body of email
                 message.Subject = subject;

@@ -35,20 +35,18 @@ namespace Northwind.Controllers
 
             var user = await userManager.FindByEmailAsync(login.Email);
 
-            if (user != null)
+            if (user == null) return View(login);
+            await signInManager.SignOutAsync();
+
+            var result = 
+                await signInManager.PasswordSignInAsync(user, login.Password,
+                    false, false);
+
+            if (result.Succeeded)
             {
-                await signInManager.SignOutAsync();
-
-                var result = 
-                    await signInManager.PasswordSignInAsync(user, login.Password,
-                        false, false);
-
-                if (result.Succeeded)
-                {
-                    return Redirect(returnUrl ?? "/");
-                }
-                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user of password");
+                return Redirect(returnUrl ?? "/");
             }
+            ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user of password");
             return View(login);
         }
 
@@ -66,7 +64,6 @@ namespace Northwind.Controllers
         }
 
         [HttpPost]
-        //public async Task<IActionResult> PasswordReset(Customer customer)
         public async Task<IActionResult> PasswordReset(string email)
         {
             if (ModelState.IsValid)
@@ -75,18 +72,36 @@ namespace Northwind.Controllers
                 if (user != null)
                 {
                     var code = await userManager.GeneratePasswordResetTokenAsync(user);
-                    var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    var callbackUrl = Url.Action("ChangePassword", "Account", new { UserId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     var emailManager = new EmailService();
-                    await emailManager.SendEmailAsync(email, "Password Reset Link", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                    await emailManager.SendEmailAsync(email, "Password Reset Link", "Please reset your password by clicking here: " + callbackUrl);
                 }
             }
 
             return View();
         }
-        public async Task<IActionResult> ResetPasswordReset(Customer customer)
-        {
 
+        public IActionResult ChangePassword(string token)
+        {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ResetPasswordViewModel reset)
+        {
+            var user = await userManager.FindByEmailAsync(reset.Email);
+
+            if (user != null)
+            {
+                var result = userManager.ResetPasswordAsync(user, reset.Token, reset.Password).Result;
+
+                if (result.Succeeded)
+                {
+                    return View("ResetSuccess");
+                }
+            }
+
+            return View(reset);
         }
     }
 }
