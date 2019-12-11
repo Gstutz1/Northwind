@@ -81,15 +81,22 @@ namespace Northwind.Controllers
             return View();
         }
 
-        public IActionResult ChangePassword(string token)
+        public IActionResult ChangePassword(string UserId, string code)
         {
-            return View();
+            ResetPasswordViewModel reset = new ResetPasswordViewModel
+            {
+                Id = UserId,
+                Token = code,
+                Password = ""
+            };
+
+            return View(reset);
         }
 
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ResetPasswordViewModel reset)
         {
-            var user = await userManager.FindByEmailAsync(reset.Email);
+            var user = await userManager.FindByIdAsync(reset.Id);
 
             if (user != null)
             {
@@ -99,9 +106,21 @@ namespace Northwind.Controllers
                 {
                     return View("ResetSuccess");
                 }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
             }
 
             return View(reset);
+        }
+
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
         }
     }
 }

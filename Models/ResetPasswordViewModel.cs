@@ -5,9 +5,10 @@ namespace Northwind.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        public string Email { get; set; }
+        public string Id { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
