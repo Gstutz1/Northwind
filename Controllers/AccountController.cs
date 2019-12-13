@@ -81,11 +81,11 @@ namespace Northwind.Controllers
             return View();
         }
 
-        public IActionResult ChangePassword(string UserId, string code)
+        public IActionResult ChangePassword(string userId, string code)
         {
-            ResetPasswordViewModel reset = new ResetPasswordViewModel
+            var reset = new ResetPasswordViewModel
             {
-                Id = UserId,
+                Id = userId,
                 Token = code,
                 Password = ""
             };
